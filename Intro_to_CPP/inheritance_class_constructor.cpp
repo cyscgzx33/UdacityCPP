@@ -45,6 +45,22 @@ class Sedan : public Car {
     string trim;
 };
 
+class Truck : public Car {
+  public:
+    Truck(string brd, string mdl, string trm)
+        : brand(brd),
+          model(mdl),
+          trim(trm) // if one doesn't explicitly call constructor of Base Class, and
+                    // there is no default constructor of Base Class as well, then
+                    // the compiler would throw an error here
+    {
+        std::cout << "Truck Initialized Successfully!" << std::endl;
+    }
+  private:
+    string brand;
+    string model;
+    string trim;
+};
 
 int main() 
 {
@@ -53,9 +69,12 @@ int main()
     Car car_2 = Car("red", 2);
     Car car_3 = Car("blue", 3);
 
-    // Create class instance for each Sedan
+    // Create class instances for each Sedan
     Sedan sedan_1 = Sedan("gray", 1, "BMW", "3-Series", "330i-xdrive");
     Sedan sedan_2 = Sedan("blue", 2, "Mercedes", "C-class", "C300");
+    
+    // Create class instances for each Truck
+    Truck truck_1 = Truck("Ford", "F-150", "Rapters");
     
     // Increment car_1's position by 1.
     car_1.IncrementDistance();
