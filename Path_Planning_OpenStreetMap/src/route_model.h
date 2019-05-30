@@ -25,13 +25,15 @@ class RouteModel : public Model {
         float distance(Node) const; // this method shouldn't change the object being passed
                                     // so one can make it a "const" method by adding "const"
                                     // AFTER the function name.
-
+        void FindNeighbors();
+        
       private:
         // Add private Node variables and methods here.
         int index;
         RouteModel* parent_model = nullptr;
 
         Node* FindNeighbor(std::vector<int>);
+        
     };
     
     // Add public RouteModel variables and methods here.

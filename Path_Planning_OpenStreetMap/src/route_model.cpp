@@ -17,7 +17,7 @@ float RouteModel::Node::distance(RouteModel::Node anotherNode) const {
 }
 
 void RouteModel::CreateNodeToRoadHashmap() {
-    for ( auto road : Roads() ) {
+    for ( const Model::Road& road : Roads() ) {
         if (road.type != Model::Road::Type::Footway) {
             for ( auto node_idx : Ways()[road.way].nodes) {
                 if ( node_to_road.find(node_idx) == node_to_road.end() ) {
@@ -48,4 +48,11 @@ RouteModel::Node* RouteModel::Node::FindNeighbor(std::vector<int> node_indices) 
     }
 
     return closest_node;
+}
+
+void RouteModel::Node::FindNeighbors() {
+    for ( const Model::Road*& road : parent_model->node_to_road[this->index] ) {
+        RouteModel::Node* node_ptr = FindNeighbor( parent_model->Ways()[road->way].nodes );
+        if (node_ptr) this->neighbors.push_back(node_ptr);
+    }
 }
