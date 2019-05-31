@@ -52,7 +52,30 @@ RouteModel::Node* RouteModel::Node::FindNeighbor(std::vector<int> node_indices) 
 
 void RouteModel::Node::FindNeighbors() {
     for ( const Model::Road*& road : parent_model->node_to_road[this->index] ) {
-        RouteModel::Node* node_ptr = FindNeighbor( parent_model->Ways()[road->way].nodes );
+        RouteModel::Node* node_ptr = FindNeighbor( parent_model->Ways()[road->way].nodes ); // TODO: figure out what is called in the FindNeighbor()
         if (node_ptr) this->neighbors.push_back(node_ptr);
     }
+}
+
+RouteModel::Node& RouteModel::FindClosestNode(float x, float y) {
+    RouteModel::Node tempNode;
+    tempNode.x = x;
+    tempNode.y = y;
+    float minDist = std::numeric_limits<float>::max(); // init min dist with max float value
+    float curDist = 0.0;
+    int closestIdx = 0;
+
+    for ( const Model::Road& road : Roads() ) {
+        if (road.type != Model::Road::Type::Footway) {
+            for (int node_idx : Ways()[road.way].nodes) {
+                curDist = SNodes()[node_idx].distance(tempNode);
+                if ( minDist > curDist ) {
+                    minDist = curDist;
+                    closestIdx = node_idx;
+                }
+            }
+        }
+    }
+
+    return SNodes()[closestIdx];
 }

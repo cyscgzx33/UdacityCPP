@@ -26,7 +26,7 @@ class RouteModel : public Model {
                                     // so one can make it a "const" method by adding "const"
                                     // AFTER the function name.
         void FindNeighbors();
-        
+
       private:
         // Add private Node variables and methods here.
         int index;
@@ -42,7 +42,8 @@ class RouteModel : public Model {
     std::vector<Node>& SNodes() { return m_Nodes; }
 
     std::unordered_map< int, std::vector<const Model::Road*> >& GetNodeToRoadMap() { return node_to_road; }
-
+    RouteModel::Node& FindClosestNode(float, float); // No need to specify RouteModel::
+    
   private:
     // Add private RouteModel variables and methods here.
     std::vector<Node> m_Nodes;
