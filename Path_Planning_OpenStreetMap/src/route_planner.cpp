@@ -47,3 +47,50 @@ void RoutePlanner::AStarSearch() {
     
     m_Model.path = ConstructFinalPath(end_node);
 }
+
+float RoutePlanner::CalculateHValue(const RouteModel::Node* node) {
+    return node->distance( *(this->end_node) );
+}
+
+RouteModel::Node* RoutePlanner::NextNode() {
+
+    // sort the open_list according to the f-value w/ custom compare func
+    std::sort(this->open_list.begin(), this->open_list.end(), RoutePlanner::compareFValue);
+
+    // Note: one can also implement the sort func together w/ compare func
+    /* *************************************************************************************  *
+    *  std::sort(oepn_list.begin(), open_list.end(), []const auto & _1st, const auto &_2nd) { *
+    *   return _1st->h_value + _1st->g_value > _2nd->h_value + 2nd->g_value;                  *
+    *  });                                                                                    *
+    ****************************************************************************************  */
+
+    // copy the pointer to the node with lowest f-value
+    RouteModel::Node* lowest_f_val_node = this->open_list.back();
+    this->open_list.pop_back();
+
+    return lowest_f_val_node;
+}
+
+// Note: here we don NOT need to explicitly specifiy "static" here
+bool RoutePlanner::compareFValue(const RouteModel::Node* node_a, RouteModel::Node* node_b) {
+    
+    /* Question: Not sure how to access the h_value here for the two nodes */
+
+    // float h_val_a = RoutePlanner::CalculateHValue(node_a);
+    // float h_val_b = RoutePlanner::CalculateHValue(node_b);
+    
+    return node_a->g_value + node_a->h_value > node_b->g_value + node_b->h_value;
+}
+
+
+void RoutePlanner::AddNeighbors(RouteModel::Node* current_node) {
+    // update current_node's neighbors vector
+    current_node->RouteModel::Node::FindNeighbors();
+    for (RouteModel::Node* neighbor : current_node->neighbors) {
+        neighbor->parent = current_node;
+        neighbor->g_value = current_node->g_value + current_node->distance(*neighbor);
+        neighbor->h_value = this->CalculateHValue(neighbor);
+        this->open_list.push_back(neighbor);
+        neighbor->visited = true;
+    }
+}
