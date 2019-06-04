@@ -41,11 +41,21 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node*
 
 
 void RoutePlanner::AStarSearch() {
-    // TODO: figure out why do we need to perform this?
-    // Maybe just for dummy test
-    end_node->parent = start_node;
+    this->start_node->visited = true;
+    this->open_list.push_back(this->start_node);
     
-    m_Model.path = ConstructFinalPath(end_node);
+    RouteModel::Node* current_node = nullptr;
+    while ( !open_list.empty() )
+    {
+        current_node = this->NextNode();
+        if ( current_node->distance(*this->end_node) == 0 ) { // reach the end_node
+            m_Model.path = this->ConstructFinalPath(current_node);
+            return; // exit the A* search
+        } else { // continue A* search
+            AddNeighbors(current_node);
+        }
+    }
+    
 }
 
 float RoutePlanner::CalculateHValue(const RouteModel::Node* node) {
