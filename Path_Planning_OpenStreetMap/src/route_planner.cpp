@@ -82,7 +82,7 @@ RouteModel::Node* RoutePlanner::NextNode() {
 }
 
 // Note: here we don NOT need to explicitly specifiy "static" here
-bool RoutePlanner::compareFValue(const RouteModel::Node* node_a, RouteModel::Node* node_b) {
+bool RoutePlanner::compareFValue(const RouteModel::Node* node_a, const RouteModel::Node* node_b) {
     
     /* Question: Not sure how to access the h_value here for the two nodes */
 

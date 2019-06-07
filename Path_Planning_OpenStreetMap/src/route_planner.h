@@ -24,6 +24,6 @@ class RoutePlanner {
     std::vector<RouteModel::Node> ConstructFinalPath(RouteModel::Node*);
     float CalculateHValue(const RouteModel::Node* node); // TODO: make sure it is the correct way to receive a "const" pointer
     RouteModel::Node* NextNode();
-    static bool compareFValue(const RouteModel::Node* node_a, RouteModel::Node* node_b);
+    static bool compareFValue(const RouteModel::Node* node_a, const RouteModel::Node* node_b); // A static member function shall not be declared "const".
     void AddNeighbors(RouteModel::Node*);
 };
