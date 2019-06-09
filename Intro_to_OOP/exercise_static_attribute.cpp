@@ -3,7 +3,8 @@
 class  Abstraction {
 private:
     // Counter of class objects
-    static int counter;
+    static int counter; // NOTE: static attribute can NOT be init in the class
+                        //       otherwise it will be treated as const static member
     int number;
     char character;
     // Private method - Used to perform inner logic
@@ -20,8 +21,8 @@ public:
 // the global scope of the program
 // If you use declaration and initialization in class body 
 // it viewed as declaration of const static member;
-
 int Abstraction::counter = 0;
+
 void Abstraction::ProcessAttributes() {
     Abstraction::number *= 6;
     Abstraction::character++;
