@@ -6,7 +6,7 @@ class Line {
   	double length_;
 };
 
-class Circle : Line {
+class Circle : public Line { // Note: previously, "public" is not specified, then the compiler would regard it "private" as default
   public:
   	double getArea() const;
   	void setRadius(double radius);
