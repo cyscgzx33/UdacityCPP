@@ -32,7 +32,9 @@ class Dog : public Animal, public Pet {
   // rest of class interface
 };
 
-class Cat : public Animal, Pet {
+class Cat : public Animal, Pet { // Note: be really careful that: 
+                                 // one MUST NOT INHERIT ONE CLASS TWICE 
+                                 // (e.g., if Pet if a child of Animal, one CAN NOT inherit here twice)
   public:
       std::string eye_color_;
       int age_;
