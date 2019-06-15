@@ -87,12 +87,11 @@ int main() {
               << ", and a perimeter length equals to " << rec.PerimeterLength() << std::endl;
 
     /* written by Udacity */
-
     // Generic containter of Shapes (array) :
     Shape** shapes = new Shape*[2];
     shapes[0] = new Circle(12.31);
     shapes[1] = new Rectangle(10, 6);
-    
+
     for (int i = 0;i < 2;i++) {
         std::cout << "Area: " << shapes[i]->Area()<< "\n";
         std::cout << "Perimeter: " << shapes[i]->PerimeterLength() << "\n";
