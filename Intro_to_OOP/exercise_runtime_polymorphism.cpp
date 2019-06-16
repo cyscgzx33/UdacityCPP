@@ -14,19 +14,40 @@
 
 class Base {
   public:
-  	Base();
-  	void virtual Print();
+  	Base() {}; // Important note: 
+  			   // MUST add "{}" to specify it is an EMPTY CONSTRUCTOR
+  	void virtual Print() = 0; // Important note:
+  							  // If one doesn't plan to implement a virtual function in base class
+  							  // "= 0" MUST be added in the tail. 
   	void calc();
 };
 
-class Derived {
+class Derived : public Base {
   public:
-  	Derived();
+  	Derived() {}; // Important note: 
+  			   	  // MUST add "{}" to specify it is an EMPTY CONSTRUCTOR
   	void Print(); // No need to explicitly add "virtual" here
   	void calc();
 };
 
 
+void Base::calc() {
+	std::cout << "Base::calc() is called!" << std::endl;
+}
+
+void Derived::Print() {
+	std::cout << "Derived::Print() is called!" << std::endl;
+}
+
+void Derived::calc() {
+	std::cout << "Derived::calc() is called!" << std::endl;
+}
+
 int main() {
-	
+	Base* base_ptr;
+	Derived derived;
+	base_ptr = &derived;
+
+	base_ptr->Print();
+	base_ptr->calc();
 }
