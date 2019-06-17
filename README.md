@@ -7,4 +7,4 @@ The searching behavior a BFS like algorithm to visit priority of neighbor nodes 
 A set of tests is provided by Udacity and have been passed using such implementation.
 
 ## Intro to OOP
-This is a directory that contains a series of introduction, examples and exercise scripts about OOP(Object Oriented Programming) in C++. The content include but is not limited to: **Abstraction**(class declaration/definition, access modifiers), Inheritance(basics, multiple inheritance, multi-level inheritance, friend class), **Polymorphism**(overload operator/function, virtual functions) and etc.
+This is a directory that contains a series of introduction, examples and exercise scripts about OOP(Object Oriented Programming) in C++. The content include but is not limited to: **Abstraction**(class declaration/definition, access modifiers), **Inheritance**(basics, multiple inheritance, multi-level inheritance, friend class), **Polymorphism**(overload operator/function, virtual functions), **Generic Programming**(class/function template, deduction and multiple generic types), and etc.
