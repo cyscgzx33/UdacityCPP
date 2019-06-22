@@ -1,3 +1,12 @@
+// To avoid calling the header file multiple times that cause crash
+/* For example:
+ * class A and B both included class Path, and 
+ * class C inherits both A and B,
+ * then in C the class Path will only be called once.
+ */
+#ifndef PATH_H
+#define PATH_H
+
 #include <string>
 using namespace std;
 
@@ -17,7 +26,10 @@ enum CPUStates{
 class Path{
 
 public:
-    static string basePath() {
+    static string basePath() { // In terminal, try "cd /proc/",
+                               // and try "cat stat",
+                               // something interesting happens.
+                               // Use "man proc" to check the manual?
         return "/proc/";
     }
     static string cmdPath(){
@@ -39,3 +51,5 @@ public:
         return "version";
     }
 };
+
+#endif
