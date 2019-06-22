@@ -8,3 +8,9 @@ A set of tests is provided by Udacity and have been passed using such implementa
 
 ## Intro to OOP
 This is a directory that contains a series of introduction, examples and exercise scripts about OOP(Object Oriented Programming) in C++. The content include but is not limited to: **Abstraction**(class declaration/definition, access modifiers), **Inheritance**(basics, multiple inheritance, multi-level inheritance, friend class), **Polymorphism**(overload operator/function, virtual functions), **Generic Programming**(class/function template, deduction and multiple generic types), and etc.
+
+## Path Planning Project (within *OpenStreetMap* pipeline)
+In this project, A* algorithm is utilized to implement a path planning algorithm, within the pipeline of *OpenStreetMap* frame.
+
+## System Monitor Project
+In this project, a (Linux) System Monitor is built using C++ OOP topics, including *abstraction*, *inheritance*, *polymorphism*, and etc.
