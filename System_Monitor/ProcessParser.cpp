@@ -1,10 +1,10 @@
 #include "ProcessParser.h"
 
-
-using namespace std;
+#include "constants.h"
+#include "util.h"
 
 class ProcessParser{
-private:
+  private:
     std::ifstream stream;
     public:
     static string getCmd(string pid);
@@ -28,7 +28,32 @@ private:
 
 // TODO: Define all of the above functions below:
 
-
-std::string getVimSize(std::string pid) {
+/* function goal: figure out how much RAM is a given process using */
+std::string ProcessParser::getVmSize(std::string pid) {
     
+    std::string line;
+
+    // declare search attributes for file
+    std::string name = "VmData";
+    std::string value;
+    float result;
+
+    // open stream for a specific file
+    std::ifstream stream = Util::getStream( (Path::basePath() + pid + Path::statusPath()) );
+
+    while(std::getline(stream, line)) {
+        // searching line by line
+        if (line.compare(0, name.size(), name) == 0) {
+            // slicing string line on ws for values using sstream
+            std::istringstream buf(line);
+            std::istream_iterator<string> beg(buf), end;
+            std::vector<string> values(beg, end);
+
+            // conversion kB -> GB
+            result = ( stof(values[1]) / float(1024) );
+            break;
+        }
+    }
+    
+    return std::to_string(result);
 }
