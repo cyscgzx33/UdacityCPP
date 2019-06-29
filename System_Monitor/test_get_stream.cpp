@@ -26,12 +26,16 @@ std::string getVmSize(std::string pid) {
         // searching line by line
         if (line.compare(0, name.size(), name) == 0) {
             // slicing string line on ws for values using sstream
+
+            // Note: 1. it is using buf to collect each line;
+            //       2. and parse it into begin and end
+            //       3. finally it processes into a vector of string
             std::istringstream buf(line);
-            std::istream_iterator<string> beg(buf), end;
-            std::vector<string> values(beg, end);
+            std::istream_iterator<string> begin(buf), end;
+            std::vector<string> values(begin, end);
 
             // conversion kB -> GB
-            result = ( stof(values[1]) / float(1024) );
+            result = ( stof(values[1]) / float(1024*1024) );
             break;
         }
     }

@@ -1,3 +1,6 @@
+#ifndef PROCESS_PARSER_H
+#define PROCESS_PARSER_H
+
 #include <algorithm>
 #include <iostream>
 #include <math.h>
@@ -43,3 +46,4 @@ private:
     static bool isPidExisting(std::string pid);
 };
 
+#endif
