@@ -56,8 +56,8 @@ std::string ProcessParser::getVmSize(std::string pid) {
             //               ..."
             //       3. Here, "1131692" is the values[1]    
             std::istringstream buf(line);
-            std::istream_iterator<std::string> beg(buf), end;
-            std::vector<std::string> values(beg, end);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
 
             // conversion kB -> GB
             result = ( stof(values[1]) / float(1024*1024) );
@@ -136,9 +136,68 @@ long int ProcessParser::getSysUpTime() {
 std::string ProcessParser::getProcUser(std::string pid) {
     std::string line;
 
-    std::string name = "Uid";
-
+    std::string name = "Uid"; // TODO: confirm if I have to use "Uid:"
+    std::string result = "";
     // open stream for a specific line
     std::ifstream stream = Util::getStream( ( Path::basePath() + pid + Path::upTimePath() ) );
+
+    // Getting UID for user
+    while ( std::getline(stream, line) ) {
+        if ( line.compare(0, name.size(), name) == 0 ) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin, end;
+            std::vector<std::string> values(begin, end);
+            result = values[1];
+            break;
+        }
+    }
+    stream = Util::getStream("/etc/passwd");
+    name = "x:" + result;
+
+    // Search for name of the user with selected UID
+    while ( std::getline(stream, line) ) {
+        if ( line.find(name) != std::string::npos ) {
+            result = line.substr( 0, line.find(":") );
+            return result;
+        }
+    }
+
+    return "";
+}
+
+/* Retrieve a pid list from /proc */
+std::vector<std::string> ProcessParser::getPidList() {
+
+    DIR* dir;
+
+    std::vector<std::string> container;
+
+    // check if opening the directory is succeeded
+    if ( !( dir = opendir("/proc") ) ) {
+        throw std::runtime_error( std::strerror(errno) );
+    }
+
+    // Note: it is IMPORTANT that for each element (file || dirctoary) inside the /proc
+    while ( dirent* dirp = readdir(dir) ) {
+        // STEP 1 : check if it is this a directory
+        if ( dirp->d_type != DT_DIR ) continue;
+        
+        // STEP 2 : check if every chararcter in it is a digit
+        /* Note:
+         * The function starting with "[]" is called "lambda function" or "arrow function",
+         * here, it specifically checks from start to end, and check each element is a digit (return true if yes for each)
+         * in the end, if all the elements are digits, then the all_of() returns true
+         */
+        if ( all_of( dirp->d_name, dirp->d_name + std::strlen(dirp->d_name), [](char c){ return std::isdigit(c); } ) ) {
+
+        }
+    }
+
+    // check if closing the directory is succeeded
+    if ( closedir(dir) ) {
+        throw std::runtime_error( std::strerror(errno) );
+    }
+
+    return container;
 
 }
