@@ -56,8 +56,8 @@ std::string ProcessParser::getVmSize(std::string pid) {
             //               ..."
             //       3. Here, "1131692" is the values[1]    
             std::istringstream buf(line);
-            std::istream_iterator<string> beg(buf), end;
-            std::vector<string> values(beg, end);
+            std::istream_iterator<std::string> beg(buf), end;
+            std::vector<std::string> values(beg, end);
 
             // conversion kB -> GB
             result = ( stof(values[1]) / float(1024*1024) );
@@ -69,7 +69,7 @@ std::string ProcessParser::getVmSize(std::string pid) {
 }
 
 /* function goal: get CPU percentage by acquiring relevant times of active occupation of CPU*/
-std::string ProcessParser::getCpuPercent(string pid) {
+std::string ProcessParser::getCpuPercent(std::string pid) {
     
     std::string line;
 
@@ -79,8 +79,8 @@ std::string ProcessParser::getCpuPercent(string pid) {
     std::getline(stream, line);
     // std::string str = line; // Why do we need this line? can we omit it?
     std::istringstream buf(line);
-    std::istream_iterator<string> begin(buf), end;
-    std::vector<string> values(begin, end);
+    std::istream_iterator<std::string> begin(buf), end;
+    std::vector<std::string> values(begin, end);
 
     // acquiring relevant times for calculation of active occupation of CPU for selected process
     float utime = stof(ProcessParser::getProcUpTime(pid));
@@ -97,5 +97,48 @@ std::string ProcessParser::getCpuPercent(string pid) {
     float result = 100.0 * ( (total_time / freq) / seconds );
 
     return std::to_string(result);
+}
+
+
+std::string ProcessParser::getProcUpTime(std::string pid) {
+    std::string line;
+    std::string value;
+
+    // open stream for a specific file
+    std::ifstream stream = Util::getStream( (Path::basePath() + pid + Path::statPath()) );
+
+    std::getline(stream, line);
+    // std::string str = line; // Why do we need this line? can we omit it?
+    std::istringstream buf(line);
+    std::istream_iterator<std::string> begin(buf), end;
+    vector<std::string> values(begin, end);
+
+    // get clock ticks of the host machine using sysconf()
+    return std::to_string( float( stof(values[13]) / sysconf(_SC_CLK_TCK) ) );
+}
+
+long int ProcessParser::getSysUpTime() {
+    std::string line;
+    std::string value;
+
+    // open stream for a specific line
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::upTimePath() ) );
+
+    std::getline(stream, line);
+    std::istringstream buf(line);
+    std::istream_iterator<std::string> begin(buf), end;
+    vector<std::string> values(begin, end);
+
+    return stoi(values[0]); // it should be the default index, which is 0
+}
+
+/* Retrieve the process user thru UID*/
+std::string ProcessParser::getProcUser(std::string pid) {
+    std::string line;
+
+    std::string name = "Uid";
+
+    // open stream for a specific line
+    std::ifstream stream = Util::getStream( ( Path::basePath() + pid + Path::upTimePath() ) );
 
 }
