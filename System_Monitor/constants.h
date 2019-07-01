@@ -50,6 +50,9 @@ public:
     static string versionPath(){
         return "version";
     }
+    static string cpuInfoPath(){
+        return "cpuinfo";
+    }
 };
 
 #endif

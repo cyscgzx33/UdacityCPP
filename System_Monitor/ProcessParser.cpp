@@ -3,29 +3,6 @@
 #include "constants.h"
 #include "util.h"
 
-class ProcessParser{
-  private:
-    std::ifstream stream;
-    public:
-    static string getCmd(string pid);
-    static vector<string> getPidList();
-    static std::string getVmSize(string pid);
-    static std::string getCpuPercent(string pid);
-    static long int getSysUpTime();
-    static std::string getProcUpTime(string pid);
-    static string getProcUser(string pid);
-    static vector<string> getSysCpuPercent(string coreNumber = "");
-    static float getSysRamPercent();
-    static string getSysKernelVersion();
-    static int getNumberOfCores();
-    static int getTotalThreads();
-    static int getTotalNumberOfProcesses();
-    static int getNumberOfRunningProcesses();
-    static string getOSName();
-    static std::string PrintCpuStats(std::vector<std::string> values1, std::vector<std::string>values2);
-    static bool isPidExisting(string pid);
-};
-
 // TODO: Define all of the above functions below:
 
 /* function goal: figure out how much RAM is a given process using */
@@ -111,7 +88,7 @@ std::string ProcessParser::getProcUpTime(std::string pid) {
     // std::string str = line; // Why do we need this line? can we omit it?
     std::istringstream buf(line);
     std::istream_iterator<std::string> begin(buf), end;
-    vector<std::string> values(begin, end);
+    std::vector<std::string> values(begin, end);
 
     // get clock ticks of the host machine using sysconf()
     return std::to_string( float( stof(values[13]) / sysconf(_SC_CLK_TCK) ) );
@@ -127,7 +104,7 @@ long int ProcessParser::getSysUpTime() {
     std::getline(stream, line);
     std::istringstream buf(line);
     std::istream_iterator<std::string> begin(buf), end;
-    vector<std::string> values(begin, end);
+    std::vector<std::string> values(begin, end);
 
     return stoi(values[0]); // it should be the default index, which is 0
 }
@@ -181,7 +158,7 @@ std::vector<std::string> ProcessParser::getPidList() {
     while ( dirent* dirp = readdir(dir) ) {
         // STEP 1 : check if it is this a directory
         if ( dirp->d_type != DT_DIR ) continue;
-        
+
         // STEP 2 : check if every chararcter in it is a digit
         /* Note:
          * The function starting with "[]" is called "lambda function" or "arrow function",
@@ -189,7 +166,7 @@ std::vector<std::string> ProcessParser::getPidList() {
          * in the end, if all the elements are digits, then the all_of() returns true
          */
         if ( all_of( dirp->d_name, dirp->d_name + std::strlen(dirp->d_name), [](char c){ return std::isdigit(c); } ) ) {
-
+            container.push_back(dirp->d_name);
         }
     }
 
@@ -200,4 +177,43 @@ std::vector<std::string> ProcessParser::getPidList() {
 
     return container;
 
+}
+
+/* Retrieve the command that executed the process */
+std::string ProcessParser::getCmd(std::string pid) {
+    string line;
+    std::ifstream stream = Util::getStream( (Path::basePath() + pid + Path::cmdPath() ) );
+    std::getline(stream, line);
+
+    return line;
+}
+
+/* Retrieve the number of CPU cores on the host */
+int ProcessParser::getNumberOfCores() {
+    std::string line;
+    std::string name = "cpu cores";
+    std::ifstream stream = Util::getStream( Path::basePath() + Path::cpuInfoPath() );
+
+    while ( std::getline(stream, line) ) {
+        if ( line.compare(0, name.size(), name) == 0 ) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+            // verbosely check:
+            // std::cout << "The vector of strings contains:" << std::endl;
+            // for (auto& str : values) cout << str << ", ";
+            // std::cout << '\n';
+            
+            return stoi(values[3]); // FYI, the raw info: "cpu cores       : 2"
+        }
+    }
+}
+
+int main(int argc, char** argv) {
+
+    std::cout << "test get num of cores" << std::endl;
+    std::cout << ProcessParser::getNumberOfCores() << std::endl;
+    std::cout << "test get system up time:" << std::endl;
+    std::cout << ProcessParser::getSysUpTime() << std::endl;
+    return 0;
 }
