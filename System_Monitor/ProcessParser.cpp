@@ -209,6 +209,68 @@ int ProcessParser::getNumberOfCores() {
     }
 }
 
+
+std::vector<std::string> ProcessParser::getSysCpuPercent(std::string core_number) {
+
+    // It is possible to use this method for selection of data for
+    // overall cpu or every core.
+    // When nothing is passed "cpu" line is read
+    // When, for example, "0" is passed -> cpu0 -> data for first core is read
+    std::string line;
+    std::string name = "cpu" + core_number;
+    std::ifstream stream = Util::getStream( Path::basePath() + Path::statPath() );
+
+    while ( std::getline(stream, line) ) {
+        if ( line.compare(0, name.size(), name) == 0 ) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+
+            return values;
+        }
+    }
+
+    // otherwise, just return an empty vector
+    // Note: look at the way it is constructed
+    return std::vector<std::string>();
+
+}
+
+std::string ProcessParser::PrintCpuStats(std::vector<std::string> values_1,
+                                         std::vector<std::string> values_2) 
+{
+    /* Note:
+     * Because CPU stats can be calculated only if you take measurements
+     * in two different time, this function has two parameters: 
+     * two vectors of relevant values.
+     * We use a formula to calculate overall activity of processor.
+     */
+    float active_time =   ProcessParser::getSysActiveCpuTime(values_2) 
+                        - ProcessParser::getSysActiveCpuTime(values_1);
+    float idle_time   =   ProcessParser::getSysIdleCpuTime(values_2) 
+                        - ProcessParser::getSysIdleCpuTime(values_1);
+
+    float total_time  = active_time + idle_time;
+    float result      = 100.0 * (active_time / total_time);
+    return std::to_string(result);
+}
+
+float ProcessParser::getSysActiveCpuTime(std::vector<std::string> values) {
+    return ( stof(values[S_USER])       +
+             stof(values[S_NICE])       +
+             stof(values[S_SYSTEM])     +
+             stof(values[S_IRQ])        +
+             stof(values[S_SOFTIRQ])    +
+             stof(values[S_STEAL])      +
+             stof(values[S_GUEST])      +
+             stof(values[S_GUEST_NICE]) );
+}
+
+float ProcessParser::getSysIdleCpuTime(std::vector<std::string> values) {
+    return ( stof(values[S_IDLE]) + stof(values[S_IOWAIT]) );
+}
+
+
 int main(int argc, char** argv) {
 
     std::cout << "test get num of cores" << std::endl;

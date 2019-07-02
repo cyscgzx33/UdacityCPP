@@ -44,6 +44,8 @@ private:
     static std::string getOSName();
     static std::string PrintCpuStats(std::vector<std::string> values1, std::vector<std::string>values2);
     static bool isPidExisting(std::string pid);
+    static float getSysActiveCpuTime(std::vector<std::string> values);
+    static float getSysIdleCpuTime(std::vector<std::string> values);
 };
 
 #endif
