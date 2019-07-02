@@ -271,6 +271,56 @@ float ProcessParser::getSysIdleCpuTime(std::vector<std::string> values) {
 }
 
 
+float ProcessParser::getSysRamPercent() {
+    std::string line;
+    // Note: here we would better include ':' as well 
+    // (TODO: confirm it is OK to not do so)
+    // For example:
+    // MemFree:       55556048 kB
+    // MemAvailable:  60598508 kB
+    // Buffers:         923428 kB 
+    std::string name_1 = "MemAvailable:";
+    std::string name_2 = "MemFree:";
+    std::string name_3 = "Buffers:";
+
+    std::string value;
+    int result;
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::memInfoPath() ) );
+    float total_mem = 0;
+    float free_mem = 0;
+    float buffers = 0;
+
+    while ( std::getline(stream, line) ) {
+        if (total_mem != 0 && free_mem != 0) break;
+
+        if (line.compare(0, name_1.size(), name_1) == 0) {
+            total_mem = ProcessParser::generateMemory(line);
+        }
+
+        if (line.compare(0, name_2.size(), name_2) == 0) {
+            free_mem = ProcessParser::generateMemory(line);
+        }
+
+        if (line.compare(0, name_3.size(), name_3) == 0) {
+            buffers = ProcessParser::generateMemory(line);
+        }
+    }
+
+    // calculate usage
+    return float( 100 * ( 1- free_mem / (total_mem - buffers) ) );
+}
+
+float ProcessParser::generateMemory(std::string line) {
+    std::istringstream buf(line);
+    std::istream_iterator<std::string> begin(buf), end;
+    std::vector<std::string> values(begin, end);
+
+    return stof(values[1]); // For example:
+                            // MemFree:       55556048 kB
+                            // MemAvailable:  60598508 kB
+                            // Buffers:         923428 kB
+}
+
 int main(int argc, char** argv) {
 
     std::cout << "test get num of cores" << std::endl;

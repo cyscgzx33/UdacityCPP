@@ -46,6 +46,7 @@ private:
     static bool isPidExisting(std::string pid);
     static float getSysActiveCpuTime(std::vector<std::string> values);
     static float getSysIdleCpuTime(std::vector<std::string> values);
+    static float generateMemory(std::string line);
 };
 
 #endif
