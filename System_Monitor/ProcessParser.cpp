@@ -321,6 +321,48 @@ float ProcessParser::generateMemory(std::string line) {
                             // Buffers:         923428 kB
 }
 
+/* Open a stream on /proc/version, getting data about the kernel version */
+std::string ProcessParser::getSysKernelVersion() {
+    std::string line;
+    std::string name = "Linux version"; // TODO: just erase a ' '(space) in the end
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::versionPath() ) );
+
+    while ( std::getline(stream, line) ) {
+        if (line.compare(0, name.size(), name) == 0) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+            return values[2]; // For example:
+                              // Linux version 4.15.0-52-generic (buildd@lgw01-amd64-054) ....... (omitted a lot tailing stuff)
+        }
+    }
+
+    return "";
+}
+
+/* Read /etc/os-release. We expect a string with extra characters, 
+ * which we delete based on specifications in documentation. 
+ * The result is the name of the operating system.
+ * */
+std::string ProcessParser::getOSName() {
+    std::string line;
+    std::string name = "PRETTY_NAME";
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::osPath() ) );
+
+    while ( std::getline(stream, line) ) {
+        if (line.compare(0, name.size(), name) == 0) {
+            std::size_t found = line.find("=");
+            found++; // pinpoint the position of "=", and access the next position of it
+            std::string result = line.substr(found);
+            result.erase( std::remove( result.begin(), result.end(), '"' ), result.end() );
+            return result; // For example:
+                           // PRETTY_NAME="Ubuntu 16.04.5 LTS"
+        }
+    }
+    
+    return "";
+}
+
 int main(int argc, char** argv) {
 
     std::cout << "test get num of cores" << std::endl;
