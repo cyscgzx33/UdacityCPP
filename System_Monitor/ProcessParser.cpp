@@ -363,6 +363,89 @@ std::string ProcessParser::getOSName() {
     return "";
 }
 
+/* The total thread count is calculated, rather than read from a specific file.
+ * We open every PID folder and read its thread coun; 
+ * after that, we sum the thread counts to calculate the 
+ * total number of threads on the host machine. */
+int ProcessParser::getTotalThreads() {
+    std::string line;
+    int result = 0;
+    std::string name = "Threads";
+    std::vector<std::string> list = ProcessParser::getPidList();
+
+    for (int i = 0; i < list.size(); i++) {
+        std::string pid = list[i];
+        // get every process and read the number of their threads
+        std::ifstream stream = Util::getStream( ( Path::basePath() + pid + Path::statusPath() ) );
+        while ( std::getline(stream, line) ) {
+            if (line.compare(0, name.size(), name) == 0) {
+                std::istringstream buf(line);
+                std::istream_iterator<std::string> begin(buf), end;
+                std::vector<std::string> values(begin, end);
+
+                result += stoi(values[1]); // For example:
+                                           // cat "/proc/16653/status":
+                                           // ......
+                                           // Threads:      16
+                                           // ......
+                break;
+            }
+        }
+    }
+
+    return result;
+}
+
+/* Retrieve number of processes info by reading /proc/stat */
+int ProcessParser::getTotalNumberOfProcesses() {
+    std::string line;
+    int result = 0;
+    std::string name = "processes";
+
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::statPath() ) );
+    while ( std::getline(stream, line) ) {
+        if (line.compare(0, name.size(), name) == 0) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+
+            result += stoi(values[1]); // For example:
+                                        // cat "/proc/stat":
+                                        // ......
+                                        // processess 152983
+                                        // ......
+            break;
+        }
+    }
+
+    return result;    
+}
+
+/* Retrieve number of running processess info by reading /proc/stat */
+int ProcessParser::getTotalNumberOfProcesses() {
+    std::string line;
+    int result = 0;
+    std::string name = "procs_running";
+
+    std::ifstream stream = Util::getStream( ( Path::basePath() + Path::statPath() ) );
+    while ( std::getline(stream, line) ) {
+        if (line.compare(0, name.size(), name) == 0) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+
+            result += stoi(values[1]); // For example:
+                                        // cat "/proc/stat":
+                                        // ......
+                                        // procs_running 3
+                                        // ......
+            break;
+        }
+    }
+
+    return result;    
+}
+
 int main(int argc, char** argv) {
 
     std::cout << "test get num of cores" << std::endl;
