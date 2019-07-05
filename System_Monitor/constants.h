@@ -11,7 +11,9 @@
 using namespace std;
 
 enum CPUStates{
-	S_USER = 1,
+	S_USER = 1, // Important note:
+                // Since the first element is assigned 1,
+                // the following ones will auto increment from 2 to n ...
 	S_NICE,
 	S_SYSTEM,
 	S_IDLE,
