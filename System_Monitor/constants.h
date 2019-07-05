@@ -28,11 +28,15 @@ enum CPUStates{
 class Path{
 
 public:
-    static string basePath() { // In terminal, try "cd /proc/",
+    static string basePath(){ // In terminal, try "cd /proc/",
                                // and try "cat stat",
                                // something interesting happens.
                                // Use "man proc" to check the manual?
         return "/proc/";
+    }
+    static string etcPath(){// In terminal, try "cd /etc/",
+                             // Simular to commands above
+        return "/etc/";
     }
     static string cmdPath(){
         return "/cmdline";
@@ -54,6 +58,9 @@ public:
     }
     static string cpuInfoPath(){
         return "cpuinfo";
+    }
+    static string osPath(){
+        return "os-release";
     }
 };
 
