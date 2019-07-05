@@ -1,10 +1,10 @@
 #include "Process.h"
 #include <vector>
-class ProcessContainer{
 
-private:
-    std::vector<Process>_list;
-public:
+class ProcessContainer{
+  private:
+    std::vector<Process::Process> _list;
+  public:
     ProcessContainer(){
         this->refreshList();
     }
@@ -21,6 +21,7 @@ void ProcessContainer::refreshList(){
         this->_list.push_back(proc);
     }
 }
+
 std::string ProcessContainer::printList(){
     std::string result="";
     for(int i=0;i<this->_list.size();i++){
@@ -28,7 +29,8 @@ std::string ProcessContainer::printList(){
     }
     return result;
 }
-std::vector<std::vector<std::string> > ProcessContainer::getList(){
+
+std::vector<std::vector<std::string>> ProcessContainer::getList(){
     std::vector<std::vector<std::string>> values;
     std::vector<std::string> stringifiedList;
     for(int i=0; i<ProcessContainer::_list.size(); i++){
@@ -45,6 +47,6 @@ std::vector<std::vector<std::string> > ProcessContainer::getList(){
             std::vector<std::string> sub(&stringifiedList[lastIndex],&stringifiedList[i+1]);
             values.push_back(sub);
         }
-   }
+    }
     return values;
 }

@@ -1,11 +1,14 @@
 #include <string>
+#include "ProcessParser.h"
+
+/* It looks weried, need to confirm the whole class */
 
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
 */
 class Process {
-private:
+  private:
     std::string pid_;
     std::string user_;
     std::string cmd_;
@@ -13,8 +16,8 @@ private:
     std::string mem_;
     std::string upTime_;
 
-public:
-    Process(string pid) {
+  public:
+    Process(std::string pid) {
         this->pid_ = pid;
         this->user_ = ProcessParser::getProcUser(pid);
         this->mem_ = "0.0"; //completed initialization for mem_
@@ -97,9 +100,9 @@ std::string Process::getUpTime() const {
 std::string Process::getProcess(){
     if(!ProcessParser::isPidExisting(this->pid_))
         return "";
-    this->mem = ProcessParser::getVmSize(this->pid_);
-    this->upTime = ProcessParser::getProcUpTime(this->pid_);
-    this->cpu = ProcessParser::getCpuPercent(this->pid_);
+    this->mem_ = ProcessParser::getVmSize(this->pid_);
+    this->upTime_ = ProcessParser::getProcUpTime(this->pid_);
+    this->cpu_ = ProcessParser::getCpuPercent(this->pid_);
 
     return (this->pid_ + "   " +
             this->user_ + "   " +
