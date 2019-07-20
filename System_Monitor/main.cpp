@@ -101,5 +101,11 @@ int main( int   argc, char *argv[] )
     SysInfo sys;
     //std::string s = writeToConsole(sys);
     printMain(sys,procs);
+
+    
+
+
+
+
     return 0;
 }
