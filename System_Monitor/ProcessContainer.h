@@ -1,3 +1,6 @@
+#ifndef PROCESs_CONTAINER_H
+#define PROCESS_CONTAINER_H
+
 #include "Process.h"
 #include <vector>
 #include <string>
@@ -12,7 +15,7 @@ class ProcessContainer{
     std::string printList();
     std::vector<std::vector<std::string>> getList();
   private:
-    std::vector<Process::Process> _list;
+    std::vector<Process> _list;
 };
 
 void ProcessContainer::refreshList(){
@@ -53,3 +56,5 @@ std::vector<std::vector<std::string>> ProcessContainer::getList(){
     }
     return values;
 }
+
+#endif

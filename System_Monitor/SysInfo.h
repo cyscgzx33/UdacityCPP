@@ -1,3 +1,6 @@
+#ifndef SYS_INFO_H
+#define SYS_INFO_H
+
 #include <string>
 #include <iostream>
 #include <vector>
@@ -137,3 +140,4 @@ std::string SysInfo::getThreads()const {
 std::string SysInfo::getOSName()const {
     return this->OSname;
 }
+#endif

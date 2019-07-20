@@ -1,3 +1,6 @@
+#ifndef PROCESS_H
+#define PROCESS_H
+
 #include <string>
 #include "ProcessParser.h"
 
@@ -83,3 +86,4 @@ std::string Process::getProcess(){
             this->up_time_.substr(0, 5) + "   " +
             this->cmd_.substr(0, 30)    + "..." ); 
 }
+#endif
