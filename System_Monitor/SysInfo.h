@@ -3,7 +3,7 @@
 #include <vector>
 #include "ProcessParser.h"
 class SysInfo {
-private:
+  private:
     std::vector<std::string> lastCpuStats;
     std::vector<std::string> currentCpuStats;
     std::vector<std::string> coresStats;
@@ -17,14 +17,14 @@ private:
     int totalProc;
     int runningProc;
     int threads;
-public:
 
+  public:
     SysInfo(){
-    /*
-    Getting initial info about system
-    Initial data for individual cores is set
-    System data is set
-    */
+        /*
+        * Getting initial info about system
+        * Initial data for individual cores is set
+        * System data is set
+        * */
         this->getOtherCores(ProcessParser::getNumberOfCores());
         this->setLastCpuMeasures();
         this->setAttributes();
@@ -45,34 +45,38 @@ public:
     void setCpuCoresStats();
     std::vector<std::string> getCoresStats()const;
 };
+
 void SysInfo::getOtherCores(int _size){
-//when number of cores is detected, vectors are modified to fit incoming data
-        this->coresStats = std::vector<std::string>();
-        this->coresStats.resize(_size);
-        this->lastCpuCoresStats = std::vector<std::vector<std::string>>();
-        this->lastCpuCoresStats.resize(_size);
-        this->currentCpuCoresStats = std::vector<std::vector<std::string>>();
-        this->currentCpuCoresStats.resize(_size);
+    //when number of cores is detected, vectors are modified to fit incoming data
+    this->coresStats = std::vector<std::string>();
+    this->coresStats.resize(_size);
+    this->lastCpuCoresStats = std::vector<std::vector<std::string>>();
+    this->lastCpuCoresStats.resize(_size);
+    this->currentCpuCoresStats = std::vector<std::vector<std::string>>();
+    this->currentCpuCoresStats.resize(_size);
     for(int i=0;i<_size;i++){
         this->lastCpuCoresStats[i] = ProcessParser::getSysCpuPercent(to_string(i));
     }
 }
+
 void SysInfo::setLastCpuMeasures(){
  this->lastCpuStats = ProcessParser::getSysCpuPercent();
 }
+
 void SysInfo::setCpuCoresStats(){
-// Getting data from files (previous data is required)
+    // Getting data from files (previous data is required)
     for(int i=0;i<this->currentCpuCoresStats.size();i++){
         this->currentCpuCoresStats[i] = ProcessParser::getSysCpuPercent(to_string(i));
     }
     for(int i=0;i<this->currentCpuCoresStats.size();i++){
-    // after acquirement of data we are calculating every core percentage of usage
+        // after acquirement of data we are calculating every core percentage of usage
         this->coresStats[i] = ProcessParser::PrintCpuStats(this->lastCpuCoresStats[i],this->currentCpuCoresStats[i]);
     }
     this->lastCpuCoresStats = this->currentCpuCoresStats;
 }
+
 void SysInfo::setAttributes(){
-// getting parsed data
+    // getting parsed data
     this-> memPercent = ProcessParser::getSysRamPercent();
     this-> upTime = ProcessParser::getSysUpTime();
     this-> totalProc = ProcessParser::getTotalNumberOfProcesses();
@@ -82,9 +86,10 @@ void SysInfo::setAttributes(){
     this->cpuPercent = ProcessParser::PrintCpuStats(this->lastCpuStats,this->currentCpuStats);
     this->lastCpuStats = this->currentCpuStats;
     this->setCpuCoresStats();
-
 }
+
 // Constructing string for every core data display
+// Note: it contains a lot of error checking logics, which means it's a complex getter
 std::vector<std::string> SysInfo::getCoresStats()const{
     std::vector<std::string> result= std::vector<std::string>();
     for(int i=0;i<this->coresStats.size();i++){
@@ -95,11 +100,13 @@ std::vector<std::string> SysInfo::getCoresStats()const{
         if(!check || this->coresStats[i] == "nan"){
             return std::vector<std::string>();
         }
-        temp += Util::getProgressBar(this->coresStats[i]);
+        temp += Util::getProgressBar(this->coresStats[i]); // It will ultimatedly gives you info plus bars like:
+                                                           //  "cpu 0: |||||||||||"
         result.push_back(temp);
     }
     return result;
 }
+
 std::string SysInfo::getCpuPercent()const {
     return this->cpuPercent;
 }
