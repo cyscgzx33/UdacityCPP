@@ -24,19 +24,11 @@ class SysInfo {
 
   public:
     SysInfo(){
-<<<<<<< HEAD
-        /*
-        * Getting initial info about system
-        * Initial data for individual cores is set
-        * System data is set
-        * */
-=======
     /*
      * Getting initial info about system
      * Initial data for individual cores is set
      * System data is set
      */
->>>>>>> 064b70c2d70e9575a7e980acfa7149edeb16627d
         this->getOtherCores(ProcessParser::getNumberOfCores());
         this->setLastCpuMeasures();
         this->setAttributes();
