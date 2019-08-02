@@ -9,7 +9,7 @@ template <class _Tc>
 class PtrDetails
 {
   public:
-    int recount_;
+    int ref_count_;
     _Tc* mem_ptr;
     int array_size_;
     PtrDetails(_Tc* obj, int size);
