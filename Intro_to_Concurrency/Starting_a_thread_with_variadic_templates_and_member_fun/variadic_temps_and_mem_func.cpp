@@ -15,5 +15,17 @@ void printIDAndName(int id, std::string name)
 }
 
 int main() {
-    
+    int id = 0; // Define an integer variable
+
+    // starting threads using variadic templates
+    std::thread t1(printID, id);
+    std::thread t2(printIDAndName, ++id, "MyString");
+    // std::thread t3(printIDAndName, ++id); // produces compiler error
+
+    // wait for threads before return
+    t1.join();
+    t2.join();
+    // t3.join();
+
+    return 0;
 }
