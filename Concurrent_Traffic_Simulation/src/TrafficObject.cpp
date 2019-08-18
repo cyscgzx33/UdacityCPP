@@ -27,7 +27,8 @@ TrafficObject::TrafficObject()
 }
 
 TrafficObject::~TrafficObject()
-{
+{   
+    // Test for Task L1.1
     // set up thread barrier before this object is destroyed
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) {
         t.join();

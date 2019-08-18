@@ -15,9 +15,9 @@
  * In this example, join acts as a barrier where all threads are united. 
  * The execution of main is in fact halted, until both worker threads have successfully completed their respective work.
  * 
- *             ----- fork -----
- *            /       |        \    
- *      some work    fork       \
+ *              ---- fork
+ *            /       |    
+ *      some work    fork ------
  *          |         |          \
  *          |     some work    some work 
  *          |         |           |
