@@ -74,6 +74,7 @@ void Vehicle::drive()
             yv = y1 + completion * dy;
             this->setPosition(xv, yv);
 
+            /* Task L2.1 */
             // check wether halting position in front of destination has been reached
             if (completion >= 0.9 && !hasEnteredIntersection)
             {
@@ -108,7 +109,7 @@ void Vehicle::drive()
                     nextStreet = _currStreet;
                 }
                 
-                // pick the one intersection at which the vehicle is currently not
+                // pick the one intersection at which the vehicle is currently not occupied
                 std::shared_ptr<Intersection> nextIntersection = nextStreet->getInIntersection()->getID() == _currDestination->getID() ? nextStreet->getOutIntersection() : nextStreet->getInIntersection(); 
 
                 // send signal to intersection that vehicle has left the intersection

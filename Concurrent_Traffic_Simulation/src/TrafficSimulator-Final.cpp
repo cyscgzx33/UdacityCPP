@@ -122,8 +122,8 @@ int main()
     // Test for Task L1.3
     int nVehicles = 5; // default is 6
                        // no larger than this->size() = 6
-    // createTrafficObjects_Paris(streets, intersections, vehicles, backgroundImg, nVehicles); // default object creating function
-    createTrafficObjects_NYC(streets, intersections, vehicles, backgroundImg, nVehicles); 
+    createTrafficObjects_Paris(streets, intersections, vehicles, backgroundImg, nVehicles); // default object creating function
+    // createTrafficObjects_NYC(streets, intersections, vehicles, backgroundImg, nVehicles); // Task L1 object creating function
 
     /* PART 2 : simulate traffic objects */
 
