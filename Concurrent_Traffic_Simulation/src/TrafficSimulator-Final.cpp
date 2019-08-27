@@ -119,7 +119,8 @@ int main()
     std::vector<std::shared_ptr<Vehicle>> vehicles;
     std::string backgroundImg;
     
-    // Test for Task L1.3
+    /* Task L1.3 */
+    // Test for Task L1.3 by changing nVehicles
     int nVehicles = 5; // default is 6
                        // no larger than this->size() = 6
     createTrafficObjects_Paris(streets, intersections, vehicles, backgroundImg, nVehicles); // default object creating function
