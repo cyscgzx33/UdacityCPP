@@ -1,3 +1,22 @@
+/**
+ * [Description]
+ * In this version of the code, std::lock_guard has been replaced with std::unique_lock. As before, the lock object lck will unlock 
+ * the mutex in its destructor, i.e. when the function divideByNumber returns and lck gets out of scope. In addition to this automatic unlocking, 
+ * std::unique_lock offers the additional flexibility to engage and disengage the lock as needed by manually calling the methods lock() and unlock(). 
+ * This ability can greatly improve the performance of a concurrent program, especially when many threads are waiting for access to a locked resource. 
+ * In the example, the lock is released before some non-critical work is performed (simulated by sleep_for) and re-engaged before some other work 
+ * is performed in the critical section and thus under the lock again at the end of the function. 
+ * This is particularly useful for optimizing performance and responsiveness when a significant amount of time passes between two accesses to a critical resource.
+ * 
+ * The main advantages of using std::unique_lock<> over std::lock_guard are briefly summarized in the following. 
+ *
+ * Using std::unique_lock allows you to...
+ * ...construct an instance without an associated mutex using the default constructor
+ * ...construct an instance with an associated mutex while leaving the mutex unlocked at first using the deferred-locking constructor
+ * ...construct an instance that tries to lock a mutex, but leaves it unlocked if the lock failed using the try-lock constructor
+ * ...construct an instance that tries to acquire a lock for either a specified time period or until a specified point in time
+ */
+
 #include <iostream>
 #include <thread>
 #include <vector>
