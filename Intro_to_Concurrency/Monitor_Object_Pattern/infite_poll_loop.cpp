@@ -1,3 +1,10 @@
+/**
+ * [Description]
+ * Our goal is to change the code in a way that the main thread gets notified every time new data becomes available. 
+ * But how can the main thread know whether new data has become available? 
+ * The solution is to write a new method that regularly checks for the arrival of new data.
+ * 
+ * */
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -20,6 +27,8 @@ class WaitingVehicles
   public:
 	WaitingVehicles() {}
 
+	// a new method dataIsAvailable() has been added, while printIDs() has been removed
+	// note that instead of copying the data, it is moved from the vector to the main method
 	bool dataIsAvailable()
 	{
 		std::lock_guard<std::mutex> my_lock(mutex_);
@@ -70,7 +79,7 @@ int main()
 	}
 
 	std::cout << "Collecting results ... " << std::endl;
-	while (true)
+	while (true) // use infinite while-loop to frequently poll the monitor object and check whether new data has become available
 	{
 		if ( queue->dataIsAvailable() )
 		{
