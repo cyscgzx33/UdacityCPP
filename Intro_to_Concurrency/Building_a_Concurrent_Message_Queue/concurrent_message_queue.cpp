@@ -33,7 +33,7 @@ class MessageQueue
         std::lock_guard<std::mutex> u_lock(mutex_);
 
         // add vector to queue
-        std::cout << "  Message " << msg << " has been sent to the queue" << std::endl;
+        std::cout << "  Message #" << msg << " has been sent to the queue" << std::endl;
         messages_.push_back( std::move(msg) );
     }
 
