@@ -18,7 +18,7 @@ class TrafficObject
 public:
     // constructor / desctructor
     TrafficObject();
-    ~TrafficObject();
+    virtual ~TrafficObject(); // cyscgzx33: changed the dtor to virtual
 
     // getter and setter
     int getID() { return _id; }
