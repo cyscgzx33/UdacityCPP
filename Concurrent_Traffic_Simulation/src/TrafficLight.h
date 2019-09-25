@@ -47,8 +47,8 @@ class TrafficLight : public TrafficObject
     virtual ~TrafficLight();
 
     // getters / setters
-    TrafficLightPhase getTrafficLightPhase() const;
-    void setTrafficLightPhase(int phase);
+    TrafficLightPhase getCurrentPhase() const;
+    void setCurrentPhase(const TrafficLightPhase color);
 
     // typical behaviour methods
     void waitForGreen();

@@ -8,7 +8,7 @@ Vehicle::Vehicle()
 {
     _currStreet = nullptr;
     _posStreet = 0.0;
-    _type = ObjectType::objectVehicle;
+    type_ = ObjectType::objectVehicle;
     _speed = 400; // m/s
 }
 
@@ -26,15 +26,15 @@ void Vehicle::simulate()
 {
     // Test for Task L1.2
     // launch drive function in a thread
-    threads.emplace_back(std::thread(&Vehicle::drive, this));
+    threads_.emplace_back(std::thread(&Vehicle::drive, this));
 }
 
 // virtual function which is executed in a thread
 void Vehicle::drive()
 {
     // print id of the current thread
-    std::unique_lock<std::mutex> lck(_mtx);
-    std::cout << "Vehicle #" << _id << "::drive: thread id = " << std::this_thread::get_id() << std::endl;
+    std::unique_lock<std::mutex> lck(mtx_);
+    std::cout << "Vehicle #" << id_ << "::drive: thread id = " << std::this_thread::get_id() << std::endl;
     lck.unlock();
 
     // initalize variables
