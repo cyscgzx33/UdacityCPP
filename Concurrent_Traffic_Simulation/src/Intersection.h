@@ -6,6 +6,7 @@
 #include <mutex>
 #include <memory>
 #include "TrafficObject.h"
+#include "TrafficLight.h"
 
 // forward declarations to avoid include cycle
 class Street;
@@ -23,9 +24,9 @@ public:
     void permitEntryToFirstInQueue();
 
 private:
-    std::vector<std::shared_ptr<Vehicle>> _vehicles;          // list of all vehicles waiting to enter this intersection
-    std::vector<std::promise<void>> _promises; // list of associated promises
-    std::mutex _mutex;
+    std::vector<std::shared_ptr<Vehicle>> vehicles_;          // list of all vehicles waiting to enter this intersection
+    std::vector<std::promise<void>> promises_; // list of associated promises
+    std::mutex mutex_;
 };
 
 class Intersection : public TrafficObject
@@ -51,9 +52,10 @@ private:
     void processVehicleQueue();
 
     // private members
-    std::vector<std::shared_ptr<Street>> _streets;   // list of all streets connected to this intersection
-    WaitingVehicles _waitingVehicles; // list of all vehicles and their associated promises waiting to enter the intersection
-    bool _isBlocked;                  // flag indicating wether the intersection is blocked by a vehicle
+    TrafficLight traffic_light_;
+    std::vector<std::shared_ptr<Street>> streets_;   // list of all streets connected to this intersection
+    WaitingVehicles waiting_vehicles_; // list of all vehicles and their associated promises waiting to enter the intersection
+    bool is_blocked_;                  // flag indicating wether the intersection is blocked by a vehicle
 };
 
 #endif

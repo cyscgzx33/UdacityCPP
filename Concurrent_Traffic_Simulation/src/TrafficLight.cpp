@@ -7,7 +7,6 @@
 
 /* Implementation of class "MessageQueue" */
 
-
 template <typename T>
 T MessageQueue<T>::receive()
 {
@@ -17,13 +16,13 @@ T MessageQueue<T>::receive()
     std::unique_lock<std::mutex> u_lock(mutex_);
     cond_.wait( u_lock, [this] { return !queue_.empty(); } );
 
-    T msg = std::move( queue.back() );
+    T msg = std::move( queue_.back() );
     queue_.pop_back();
     return msg;
 }
 
 template <typename T>
-void MessageQueue<T>::send(T &&msg)
+void MessageQueue<T>::send(T&& msg)
 {
     // FP.4a : The method send should use the mechanisms std::lock_guard<std::mutex> 
     // as well as _condition.notify_one() to add a new message to the queue and afterwards send a notification.
@@ -36,10 +35,10 @@ void MessageQueue<T>::send(T &&msg)
 
 /* Implementation of class "TrafficLight" */
 
-
 TrafficLight::TrafficLight()
 {
     current_phase_ = TrafficLightPhase::kRed;
+    msg_queue_ = std::make_shared<MessageQueue<TrafficLightPhase>>();
 }
 
 void TrafficLight::waitForGreen()
@@ -85,7 +84,7 @@ void TrafficLight::cycleThroughPhases()
     std::uniform_int_distribution<> distribution(4, 6);
 
     std::unique_lock<std::mutex> lock(mtx_);
-    std::cout << "Traffic Light #" << id_ << ": thread id = " << std::this_thread::get_id() << '\n';
+    std::cout << "Traffic Light #" << id_ << "::cycleThroughtPhases: thread id = " << std::this_thread::get_id() << std::endl;
     lock.unlock();
 
     // Init variables
@@ -108,17 +107,17 @@ void TrafficLight::cycleThroughPhases()
                 current_phase_ = TrafficLightPhase::kGreen;
             else
                 current_phase_ = TrafficLightPhase::kRed;
+        
+            // Send update to the message queue and wait
+            auto msg = current_phase_;
+            auto is_sent = std::async( std::launch::async, &MessageQueue<TrafficLightPhase>::send, msg_queue_, std::move(msg) );
+            is_sent.wait();
+
+            // Reset stop watch for next cycle
+            last_update = std::chrono::system_clock::now();
+
+            // Randomly choose the cycle duration for the next cycle
+            cycle_duration = distribution(eng);
         }
-
-        // Send update to the message queue and wait
-        auto msg = current_phase_;
-        auto is_sent = std::async( std::launch::async, &MessageQueue<TrafficLightPhase>::send, msg_queue_, std::move(msg) );
-        is_sent.wait();
-
-        // Reset stop watch for next cycle
-        last_update = std::chrono::system_clock::now();
-
-        // Randomly choose the cycle duration for the next cycle
-        cycle_duration = distribution(eng);
     }
 }

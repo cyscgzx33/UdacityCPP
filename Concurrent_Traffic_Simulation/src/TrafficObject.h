@@ -18,7 +18,7 @@ class TrafficObject
 public:
     // constructor / desctructor
     TrafficObject();
-    virtual ~TrafficObject(); // cyscgzx33: changed the dtor to virtual
+    ~TrafficObject();
 
     // getter and setter
     int getID() { return id_; }
@@ -37,7 +37,7 @@ protected:
     static std::mutex mtx_;            // mutex shared by all traffic objects for protecting cout 
 
 private:
-    static int _idCnt; // global variable for counting object ids
+    static int id_cnt_; // global variable for counting object ids
 };
 
 #endif

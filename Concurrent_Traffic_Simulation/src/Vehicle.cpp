@@ -12,7 +12,6 @@ Vehicle::Vehicle()
     _speed = 400; // m/s
 }
 
-
 void Vehicle::setCurrentDestination(std::shared_ptr<Intersection> destination)
 {
     // update destination

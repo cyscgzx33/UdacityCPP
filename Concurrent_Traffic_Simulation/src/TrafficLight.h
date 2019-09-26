@@ -44,7 +44,6 @@ class TrafficLight : public TrafficObject
   public:
     // constructor / desctructor
     TrafficLight();
-    virtual ~TrafficLight();
 
     // getters / setters
     TrafficLightPhase getCurrentPhase() const;

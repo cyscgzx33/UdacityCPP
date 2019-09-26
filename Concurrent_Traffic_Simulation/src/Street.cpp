@@ -6,7 +6,7 @@
 
 Street::Street()
 {
-    _type = ObjectType::objectStreet;
+    type_ = ObjectType::objectStreet;
     _length = 1000.0; // in m
 }
 
