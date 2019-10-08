@@ -117,6 +117,18 @@ bool Elevator::noRequests(const std::vector<bool>& stops)
     return true;
 }
 
+std::string writeVector(const std::vector<bool>& vec)
+{
+    std::string temp = "";
+    for (auto elem : vec)
+        temp += elem + ", ";
+
+    // remove the last ", "
+    if (temp.size() > 2)
+        temp.erase(temp.size() - 2, 2);
+
+    return temp;
+}
 std::string Elevator::elevatorStatus() const
 {
     std::string status;
@@ -127,5 +139,15 @@ std::string Elevator::elevatorStatus() const
     if (status_ == Status::kIdle)
         status = "IDLE";
     std::string description = "Current elevator status is : " + status + ".\n" + 
-                              "Current level is : " + std::to_string
+                              "Current level is : " + std::to_string(current_level_ + 1) + ".\n" +
+                              "up stop list looks like: " + writeVector(up_stops_) + ".\n" +
+                              " down stop list looks like: " + writeVector(down_stops_) + ".\n" +
+                              "**********************************************************************************************\n";
+    return description;
+}
+
+void ElevatorButton::pressButton()
+{
+    InternalRequest req = InternalRequest(level);
+    elevator->handleInternalRequest(req);
 }
