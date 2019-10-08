@@ -9,7 +9,8 @@
 enum class Status
 {
     kUp = 0,
-    kDown = 1
+    kDown = 1,
+    kIdle = 2
 };
 
 class ElevatorButton
