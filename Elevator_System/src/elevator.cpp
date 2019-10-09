@@ -1,5 +1,13 @@
 #include "elevator.h"
 
+Elevator::Elevator(int n) : current_level_(0),
+                            status_(Status::kIdle),
+                            up_stops_(n, false),
+                            down_stops_(n, false) 
+{
+    std::cout << "An elevator system with " << n << " floors has been initialized successfully!\n";
+}
+
 void Elevator::insertButton(ElevatorButton eb)
 {
     buttons_.push_back(eb);

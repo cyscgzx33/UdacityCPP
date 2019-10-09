@@ -5,17 +5,17 @@ int main(int argc, char** argv)
     Elevator elev(7);
 
     elev.handleExternalRequest( ExternalRequest(3, Direction::kUp) );
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     elev.handleExternalRequest( ExternalRequest(2, Direction::kDown) );
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     elev.openGate();
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     elev.closeGate();
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     elev.openGate();
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     elev.closeGate();
-    elev.elevatorStatus();
+    std::cout << elev.elevatorStatus() + '\n';
     
     return 0;
 }

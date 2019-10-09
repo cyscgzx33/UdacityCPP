@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "request.h"
 
+class Elevator; // It is necessary to declare it here!
+                // as ElevatorButton class calls Elevator class inside of it
 
 enum class Status
 {
@@ -16,8 +19,8 @@ enum class Status
 class ElevatorButton
 {
   private:
-    int level;
-    Elevator* elevator;
+    int level = 0;
+    Elevator* elevator = nullptr;
 
   public:
     ElevatorButton(int l, Elevator* e) : level(l), elevator(e) {}
