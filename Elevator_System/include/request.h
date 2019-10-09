@@ -3,7 +3,7 @@
 
 enum class Direction
 {
-    kUp = 1,
+    kUp = 0,
     kDown = 1
 };
 
