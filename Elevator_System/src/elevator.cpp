@@ -6,6 +6,7 @@ Elevator::Elevator(int n) : current_level_(0),
                             down_stops_(n, false) 
 {
     std::cout << "An elevator system with " << n << " floors has been initialized successfully!\n";
+    std::cout << "**********************************************************************************************\n";
 }
 
 void Elevator::insertButton(ElevatorButton eb)
@@ -51,7 +52,7 @@ void Elevator::openGate()
     {
         for (int i = 0; i < up_stops_.size(); i++)
         {
-            int check_level = (current_level_ + 1) % up_stops_.size();
+            int check_level = (current_level_ + i) % up_stops_.size();
             if ( up_stops_[check_level] == true)
             {
                 current_level_ = check_level;
@@ -64,11 +65,11 @@ void Elevator::openGate()
     {
         for (int i = 0; i < down_stops_.size(); i++)
         {
-            int check_level = (current_level_ + 1) % down_stops_.size();
+            int check_level = (current_level_ + down_stops_.size() - i) % down_stops_.size();
             if ( down_stops_[check_level] == true )
             {
                 current_level_ = check_level;
-                up_stops_[check_level] = false;
+                down_stops_[check_level] = false;
                 break;
             }
         }
@@ -129,7 +130,12 @@ std::string writeVector(const std::vector<bool>& vec)
 {
     std::string temp = "";
     for (auto elem : vec)
-        temp += elem + ", ";
+    {
+        if (elem)
+            temp += "true, ";
+        else
+            temp += "false, ";
+    }
 
     // remove the last ", "
     if (temp.size() > 2)
@@ -146,10 +152,10 @@ std::string Elevator::elevatorStatus() const
         status = "DOWN";
     if (status_ == Status::kIdle)
         status = "IDLE";
-    std::string description = "Current elevator status is : " + status + ".\n" + 
-                              "Current level is : " + std::to_string(current_level_ + 1) + ".\n" +
-                              "up stop list looks like: " + writeVector(up_stops_) + ".\n" +
-                              " down stop list looks like: " + writeVector(down_stops_) + ".\n" +
+    std::string description = "- Current elevator status is : " + status + ".\n" + 
+                              "- Current level is : " + std::to_string(current_level_ + 1) + ".\n" +
+                              "- Up stop list looks like: " + writeVector(up_stops_) + ".\n" +
+                              "- Down stop list looks like: " + writeVector(down_stops_) + ".\n" +
                               "**********************************************************************************************\n";
     return description;
 }

@@ -8,6 +8,9 @@
 
 class Elevator; // It is necessary to declare it here!
                 // as ElevatorButton class calls Elevator class inside of it
+class ExternalRequest;
+class InternalRequest;
+
 
 enum class Status
 {
