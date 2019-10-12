@@ -11,7 +11,6 @@ class Elevator; // It is necessary to declare it here!
 class ExternalRequest;
 class InternalRequest;
 
-
 enum class Status
 {
     kUp = 0,
@@ -49,7 +48,10 @@ class Elevator
     void openGate();
     void closeGate();
     bool noRequests(const std::vector<bool>& stops);
-    std::string elevatorStatus() const;
+    std::string getElevatorStatusInfo() const;
+    std::string getElevatorRequestListInfo() const;
+    Status getStatus() const { return status_; }
+    int getCurLevel() const { return current_level_; }
 };
 
 #endif /* ELEVATOR_H */

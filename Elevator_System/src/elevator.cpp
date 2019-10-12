@@ -30,6 +30,9 @@ void Elevator::handleExternalRequest(ExternalRequest r)
         if ( noRequests(up_stops_) )
             status_ = Status::kDown;
     }
+
+    // demenstrate state after executation handleExternalRequest()
+    std::cout << this->getElevatorRequestListInfo();
 }
 
 void Elevator::handleInternalRequest(InternalRequest r)
@@ -44,10 +47,15 @@ void Elevator::handleInternalRequest(InternalRequest r)
         if (r.getLevel() <= current_level_ + 1)
             down_stops_[r.getLevel() - 1] = true;
     }
+
+    // demenstrate state after executation handleInternalRequest()
+    std::cout << this->getElevatorRequestListInfo();
 }
 
 void Elevator::openGate()
 {
+    std::cout << "The elevator gate is open ! \n";
+
     if (status_ == Status::kUp)
     {
         for (int i = 0; i < up_stops_.size(); i++)
@@ -74,10 +82,15 @@ void Elevator::openGate()
             }
         }
     }
+
+    // demonstrate current elevator status
+    std::cout << this->getElevatorStatusInfo();
 }
 
 void Elevator::closeGate()
 {
+    std::cout << "The elevator gate is closed ! \n";
+
     if (status_ == Status::kIdle)
     {
         if ( noRequests(down_stops_) )
@@ -112,6 +125,9 @@ void Elevator::closeGate()
                 status_ = Status::kUp;
         }
     }
+
+    // demostrate current elevator status
+    std::cout << this->getElevatorStatusInfo();
 }
 
 bool Elevator::noRequests(const std::vector<bool>& stops)
@@ -128,22 +144,34 @@ bool Elevator::noRequests(const std::vector<bool>& stops)
 
 std::string writeVector(const std::vector<bool>& vec)
 {
-    std::string temp = "";
+    std::string temp = "[ ";
     for (auto elem : vec)
     {
         if (elem)
-            temp += "true, ";
+            temp += "1, ";
         else
-            temp += "false, ";
+            temp += "0, ";
     }
 
     // remove the last ", "
     if (temp.size() > 2)
+    {
         temp.erase(temp.size() - 2, 2);
+        temp +=" ]";
+    }
 
     return temp;
 }
-std::string Elevator::elevatorStatus() const
+
+std::string Elevator::getElevatorRequestListInfo() const
+{
+    std::string description = "- Up   stop request list: " + writeVector(up_stops_) + ".\n" +
+                              "- Down stop request list: " + writeVector(down_stops_) + ".\n" +
+                              "**********************************************************************************************\n";
+    return description;
+}
+
+std::string Elevator::getElevatorStatusInfo() const
 {
     std::string status;
     if (status_ == Status::kUp)
@@ -152,10 +180,10 @@ std::string Elevator::elevatorStatus() const
         status = "DOWN";
     if (status_ == Status::kIdle)
         status = "IDLE";
-    std::string description = "- Current elevator status is : " + status + ".\n" + 
-                              "- Current level is : " + std::to_string(current_level_ + 1) + ".\n" +
-                              "- Up stop list looks like: " + writeVector(up_stops_) + ".\n" +
-                              "- Down stop list looks like: " + writeVector(down_stops_) + ".\n" +
+    std::string description = "- The elevator is current at floor # " + std::to_string(current_level_ + 1) + ".\n" +
+                              "- The next elevator status will be : " + status + ".\n" + 
+                              "- Up   stop request list: " + writeVector(up_stops_) + ".\n" +
+                              "- Down stop request list: " + writeVector(down_stops_) + ".\n" +
                               "**********************************************************************************************\n";
     return description;
 }
