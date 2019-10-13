@@ -20,7 +20,8 @@ The Capstone chosen here gives a chance to practice the knowledge of C++ program
     * simply type in a positive interger, for example, `6`, then hit `Enter`
     * if everything works fine, the terminal would hint the initialization works successfully, and shows some information about the current status of the elevator system
     * At this moment, the elevator system should look like this:
-    <img src="https://github.com/cyscgzx33/UdacityCPP/tree/master/Elevator_System/images/elevator_initialized.png">
+    <img src="images/elevator_initialized.png">
+
 ## Information about Rubric & Criteria
 * Loops, Functions, I/O
     * The project demonstrates an understanding of C++ functions and control sturctures.
