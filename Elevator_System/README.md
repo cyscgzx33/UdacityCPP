@@ -7,18 +7,33 @@ The Capstone chosen here gives a chance to practice the knowledge of C++ program
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
 * gcc/g++ >= 5.4
 
-## Build and Run Instructions
+## Instructions for Building the Project
 * Clone this repo.
 * Make a build directory in the top level directory by: `mkdir build && cd build`.
 * Compile by: `cmake .. && make`.
-* Run the executable by: `./elevator_system`.
 
-## Information about Rubric
+## Instructions for Running the Project
+* Step 0: after finish the build process, run the executable by
+    * `./elev_sys_sim`.
+* Step 1: initialize an elevator system with N floors
+    * the terminal would ask `Please set elevator system with N floors/levels, where N should a positive integer:`
+    * simply type in a positive interger, for example, `6`, then hit `Enter`
+    * if everything works fine, the terminal would hint the initialization works successfully, and shows some information about the 
+    * At this moment, the elevator system should look like this:
+    ![Image of elevator initialized]
+    (https://github.com/cyscgzx33/UdacityCPP/tree/master/Elevator_System/images/elevator_initialized.png)
+## Information about Rubric & Criteria
 * Loops, Functions, I/O
-    * sss
+    * The project demonstrates an understanding of C++ functions and control sturctures.
+    * The project accepts user input and processes the input.
 * Object Oriented Programming
-    * ddd
+    * The project uses Object Oriented Programming techniques.
+    * Classes use appropriate access specifiers for class members.
+    * Class constructors utilize member initialization lists.
+    * Classes abstract implementation details from their interfaces.
+    * Classes encapsulate behavior.
 * Memory Management
-    * fff
+    * The project makes use of references in function declarations.
+    * The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
 * Concurrency
-    * ggg
+    * (Right now, no Concurrency stategy has been adopted)
