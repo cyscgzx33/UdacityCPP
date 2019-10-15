@@ -43,3 +43,15 @@ Course metrials of Udacity C++ Nanodegree Program: **Knowledge** and **Porjects*
     * `Pointer` is the core garbage collector class, which implements a garbage-collection pointer
     * `PtrDetails` maintains a list reference counts with allocated memory, and bonds a reference count to a piece of allocated memory
     * `Iter` is a template class similar in function to an `STL` iterator, and it defines all pointer *operations*, including pointer arithmetic, such as `*`, `->`, `begin()`, and `end()`, which work much like their equivalents in the `STL`.
+
+## Capstone Project: Elevator System
+* Contained in the folder `Elevator_System`
+* This is the Capstone/Final Project of this C++ Nanodegree program. It gives a chance to practice the knowledge of C++ programming language, by implementing the well-know Object-Oreiented Design (OOD) problem, Elevator System Design. Within this project:
+    * Implemented single elevator system, with functions to handle `ExternalRequest` and `InternalRequest`, which are from specific floor the user wants to take the elevator, and the requests to spcific floor when the user is inside the elevator, respectively
+    * According to the requirement of the course project, several important topics within this C++ nanodegree has been adopted:
+        * **Loops, Functions, I/O**
+        * **Object Oriented Programming**
+        * **Memory Management**
+        * **Concurrency** (right not, it has been adopted yet)
+    * A very simple demonstrating picture for this project:  
+    <img align="center" src="Elevator_System/images/execute_requests_02.png" width="300" /> 

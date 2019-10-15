@@ -3,7 +3,7 @@ This is a repo for the Capstone project in Udacity C++ Nanodegree Program.
 The Capstone chosen here gives a chance to practice the knowledge of C++ programming language, by implementing the well-know Object-Oreiented Design (OOD) problem, Elevator System Design.
 
 ## Dependencies for Running Locally
-* cmake >= 3.7
+* cmake >= 3.5
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
 * gcc/g++ >= 5.4
 
@@ -50,7 +50,7 @@ The Capstone chosen here gives a chance to practice the knowledge of C++ program
         <img align="center" src="images/execute_requests_06.png" width="300" />
 * Step 4 (optional): till now the main function is pretty much done, while the simulation is set up to ***infinitely loop*** the external requests, as a result, it would go over *Step 1* to *Step 3* endlessly.
     * it is welcome for user to try his or her own example thru *Step 1* to *Step 3*, but keep in mind that this program is in a very early stage version, a ton of bugs are expected to happen
-    * or user can just `Ctrl` + `C` to kill the program and exit
+    * or user can just `Ctrl` + `C` to kill the program and exit.
 
 ## Overview of Code Structure
 First of all, the project is implemented via OOD (Object Oriented Design), with a major class `Elevator`, and several auxiliary classes, such as `ExternalRequest` & `InternalRequest` (both of them inherite `Request`), all of which are contained in `elevator.h/.cpp` and `request.h/.cpp`. Besides that, a simulation logic is implemented in 

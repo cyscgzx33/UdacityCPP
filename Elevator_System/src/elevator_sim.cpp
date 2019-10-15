@@ -61,7 +61,7 @@ int main(int argc, char** argv)
             if (elev.getStatus() == Status::kUp)
                 std::cout << "Please give an input: which floor do you plan to land (from " << elev.getCurLevel() + 1 << " to " << N << "); \n";
             else
-                std::cout << "Please give an input: which floor do you plan to land (from 0 to " << elev.getCurLevel() + 1 << "); \n";
+                std::cout << "Please give an input: which floor do you plan to land (from 1 to " << elev.getCurLevel() + 1 << "); \n";
             std::cout << "Or you can type in \"-1\" request to step out the elevator. \n";
 
             std::cin >> int_req_floor;
