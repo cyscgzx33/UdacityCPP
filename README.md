@@ -52,6 +52,6 @@ Course metrials of Udacity C++ Nanodegree Program: **Knowledge** and **Porjects*
         * **Loops, Functions, I/O**
         * **Object Oriented Programming**
         * **Memory Management**
-        * **Concurrency** (right not, it has been adopted yet)
+        * **Concurrency** (right now, it hasn't been adopted yet)
     * A very simple demonstrating picture for this project:  
     <img align="center" src="Elevator_System/images/execute_requests_02.png" width="300" /> 
