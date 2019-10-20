@@ -1,5 +1,5 @@
 # UdacityCPP
-Course metrials of Udacity C++ Nanodegree Program: **Knowledge** and **Porjects**.
+Course metrials of Udacity C++ Nanodegree Program: **Knowledge** and **Projects**.
 
 ## A* Search Algorithm
 * Contained in the folder `A_star`
