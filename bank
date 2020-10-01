@@ -1,0 +1,78 @@
+//BANKING FUNCTIONS (INFO..BALANCE..DEPOSIT..WITHDRAW)
+//USING MULTILEVEL CLASSES.
+
+#include<iostream.h>
+#include<conio.h>
+
+class bank
+{
+   protected:
+   int acno,balance;
+   char name[10];
+   public:
+   void geti()
+   {
+     cout<<"\nENTER AC.NO , NAME, BALANCE: ";
+     cin>>acno>>name>>balance;
+   }
+   void showi()
+   {
+     cout<<"\nNAME= "<<name<<"\nACNO.="<<acno<<"\nBALANCE="<<balance;
+   }
+};
+
+class deposit: public bank
+{
+  protected:
+  int d;
+  public:
+  void getd()
+  {
+   cout<<"\nENTER AMOUNT U WANT TO DEPOSIT:";
+   cin>>d;
+  }
+  void showd()
+  {
+  balance=balance+d;
+    cout<<"UPDATED BALANCE="<<balance;
+  }
+};
+
+class withdraw: public deposit
+{
+  protected:
+  int w;
+  public:
+  void getw()
+  {
+   cout<<"\nENTER AMOUNT U WANT TO WITHDRAW:";
+   cin>>w;
+  }
+  void showw()
+  {
+    if(w<balance)
+    {
+    balance=balance-w;
+
+    cout<<"updated BALANCE="<<balance;
+    }
+    else
+    {
+     cout<<"YOU HAVE NOT SUFFICIENT BALANCE";
+    }
+  }
+};
+
+ void main()
+ {
+   clrscr();
+   withdraw w1;
+   w1.geti();
+   w1.showi();
+   w1.getd();
+   w1.showd();
+   w1.getw();
+   w1.showw();
+   w1.showi();
+   getch();
+ }
